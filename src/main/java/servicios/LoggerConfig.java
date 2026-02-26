@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class LoggerConfig {
 
     @Bean
-    public Logger simulationLogger() {
+    public Logger logger() {
         return LoggerFactory.getLogger("Simulation");
     }
 }
