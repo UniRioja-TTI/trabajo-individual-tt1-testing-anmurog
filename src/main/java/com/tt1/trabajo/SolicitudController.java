@@ -48,7 +48,7 @@ public class SolicitudController {
                 if (ics.isValidEntityId()) {
                 	validData.put(id, num);
                 } else {
-                	errors.add(key + "no se corresponde con una entidad");
+                	errors.add(key + "no es una entidad");
                 }
             } catch (NumberFormatException e) {
                 errors.add(key + " debe ser un número entero");
@@ -56,15 +56,15 @@ public class SolicitudController {
         });
         if(!errors.isEmpty()) {
         	model.addAttribute("errors", errors);
-        	logger.warn("Atendida petición con errores");
+        	logger.warn("Petición con errores");
         } else {
-        	logger.info("Atendida petición");
+        	logger.info("Petición atendida");
         	DatosSolicitud ds = new DatosSolicitud(validData);
         	int tok = ics.solicitarSimulation(ds);
         	if(tok != -1) {
         		model.addAttribute("token", tok);
         	} else {
-        		logger.error("Error en comunicación con servidor de simulación");
+        		logger.error("Error en la comunicación con el servidor");
         	}
         }
         return "formResult";
