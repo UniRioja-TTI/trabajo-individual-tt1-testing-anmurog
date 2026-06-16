@@ -41,19 +41,19 @@ public class SolicitudController {
         formData.forEach((key, value) -> {
             try {
                 int num = Integer.parseInt(value);
+                int id = Integer.parseInt(key);
                 if (num < 0) {
                     errors.add(key + " no puede ser negativo");
                 }
-                int id = Integer.parseInt(key);
                 if (ics.isValidEntityId()) {
                 	validData.put(id, num);
                 } else {
                 	errors.add(key + "no es una entidad");
                 }
             } catch (NumberFormatException e) {
-                errors.add(key + " debe ser un número entero");
             }
         });
+        
         if(!errors.isEmpty()) {
         	model.addAttribute("errors", errors);
         	logger.warn("Petición con errores");
@@ -65,6 +65,7 @@ public class SolicitudController {
         		model.addAttribute("token", tok);
         	} else {
         		logger.error("Error en la comunicación con el servidor");
+        		model.addAttribute("token", null);
         	}
         }
         return "formResult";

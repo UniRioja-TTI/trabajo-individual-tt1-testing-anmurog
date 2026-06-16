@@ -6,7 +6,10 @@ import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
+import com.tt1.trabajo.utilidades.ClienteSimulacion;
+
 import interfaces.InterfazContactoSim;
+import io.swagger.client.model.Solicitud;
 import modelo.DatosSimulation;
 import modelo.DatosSolicitud;
 import modelo.Entidad;
@@ -15,14 +18,23 @@ import modelo.Entidad;
 public class SimuladorService implements InterfazContactoSim {
 	
 	
-	private DatosSolicitud sol;
+	private final ClienteSimulacion clienteAPI;
+
+	public SimuladorService(ClienteSimulacion clienteAPI) {
+		this.clienteAPI = clienteAPI;
+	}
 
 	@Override
 	public int solicitarSimulation(DatosSolicitud sol) {
-		// TODO Auto-generated method stub
-		this.sol = sol;
-		Random r = new Random();
-		return r.nextInt(10000)+1;
+		Solicitud solicitud = new Solicitud();
+		
+		Integer token = clienteAPI.enviarSolicitud(solicitud);
+		
+		if (token != null && token != -1) {
+			return token;
+		} else {
+			return -1; 
+		}
 	}
 
 	@Override
@@ -52,8 +64,7 @@ public class SimuladorService implements InterfazContactoSim {
 	@Override
 	public boolean isValidEntityId() {
 		// TODO Auto-generated method stub
-		return true;
-		
+		return true;	
 	}
 
 }
